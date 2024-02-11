@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions targetNamespace="http://www.example.org/employee"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:tns="http://www.example.org/employee"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Types -->
+    <types>
+        <schema targetNamespace="http://www.example.org/employee">
+            <element name="Employee" type="tns:EmployeeType"/>
+            <complexType name="EmployeeType">
+                <sequence>
+                    <element name="id" type="xsd:long"/>
+                    <element name="name" type="xsd:string"/>
+                    <element name="salary" type="xsd:double"/>
+                </sequence>
+            </complexType>
+        </schema>
+    </types>
+
+    <!-- Messages -->
+    <message name="GetAllEmployeesRequest"/>
+    <message name="GetAllEmployeesResponse">
+        <part name="employees" type="tns:Employee" maxOccurs="unbounded"/>
+    </message>
+
+    <message name="GetEmployeeByIdRequest">
+        <part name="id" type="xsd:long"/>
+    </message>
+    <message name="GetEmployeeByIdResponse">
+        <part name="employee" type="tns:Employee"/>
+    </message>
+
+    <message name="AddEmployeeRequest">
+        <part name="employee" type="tns:Employee"/>
+    </message>
+    <message name="AddEmployeeResponse">
+        <part name="addedEmployee" type="tns:Employee"/>
+    </message>
+
+    <message name="DeleteEmployeeRequest">
+        <part name="id" type="xsd:long"/>
+    </message>
+    <message name="DeleteEmployeeResponse"/>
+
+    <!-- Port Type -->
+    <portType name="EmployeeService">
+        <operation name="getAllEmployees">
+            <input message="tns:GetAllEmployeesRequest"/>
+            <output message="tns:GetAllEmployeesResponse"/>
+        </operation>
+
+        <operation name="getEmployeeById">
+            <input message="tns:GetEmployeeByIdRequest"/>
+            <output message="tns:GetEmployeeByIdResponse"/>
+        </operation>
+
+        <operation name="addEmployee">
+            <input message="tns:AddEmployeeRequest"/>
+            <output message="tns:AddEmployeeResponse"/>
+        </operation>
+
+        <operation name="deleteEmployee">
+            <input message="tns:DeleteEmployeeRequest"/>
+            <output message="tns:DeleteEmployeeResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Binding -->
+    <binding name="EmployeeServiceSOAP" type="tns:EmployeeService">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <operation name="getAllEmployees">
+            <soap:operation soapAction="getAllEmployees"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+
+        <operation name="getEmployeeById">
+            <soap:operation soapAction="getEmployeeById"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+
+        <operation name="addEmployee">
+            <soap:operation soapAction="addEmployee"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+
+        <operation name="deleteEmployee">
+            <soap:operation soapAction="deleteEmployee"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Service -->
+    <service name="EmployeeService">
+        <port binding="tns:EmployeeServiceSOAP" name="EmployeePort">
+            <soap:address location="http://your-employee-service-url"/>
+        </port>
+    </service>
+</definitions>

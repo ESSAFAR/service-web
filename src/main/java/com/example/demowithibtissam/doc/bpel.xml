@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process name="EmployeeManagementProcess"
+         targetNamespace="http://www.example.org/employee"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:tns="http://www.example.org/employee">
+
+    <variable name="input" messageType="tns:EmployeeRequestMessage"/>
+    <variable name="output" messageType="tns:EmployeeResponseMessage"/>
+
+    <partnerLinks>
+        <partnerLink name="employeeService" partnerLinkType="tns:EmployeeService"/>
+    </partnerLinks>
+
+    <sequence>
+        <invoke name="addEmployee" partnerLink="employeeService" operation="addEmployee" variable="input" outputVariable="output"/>
+    </sequence>
+</process>
